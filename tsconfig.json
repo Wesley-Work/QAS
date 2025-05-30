@@ -38,12 +38,13 @@
     "paths": {
       "@qas/service/*": [ "packages/service/*" ],
       "@qas/hooks/*": [ "packages/hooks/*" ],
+      "@qas/type/*": [ "packages/types/*" ],
     }
   },
   "include": [
     "./**/*.ts",
     "./**/*.tsx",
-    "packages/components/**/*.vue",
+    "packages/**/*.vue",
   ],
   "exclude": [
     "node_modules",

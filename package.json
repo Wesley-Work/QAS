@@ -10,7 +10,11 @@
     "lint": "pnpm lint:tsc && eslint --ext .vue,.js,.ts,.tsx ./packages --max-warnings 0 --cache",
     "lint:fix": "eslint --ext .vue,.js,.ts,.tsx ./packages --max-warnings 0 --fix --cache",
     "dev:client": "pnpm -C packages/client dev",
-    "build:client": "pnpm -C packages/client build"
+    "build:client": "pnpm -C packages/client build",
+    "dev:service": "pnpm -C packages/service dev",
+    "start:service": "pnpm -C packages/service start",
+    "dev": "run-p dev:client dev:service",
+    "start": "run-p build:client start:service"
   },
   "author": "tdesign",
   "license": "MIT",

@@ -2,5 +2,19 @@
   "name": "@qas/service",
   "private": true,
   "main": "index.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production PORT=3000 tsx index.ts",
+    "dev": "cross-env NODE_ENV=development PORT=3000 tsx watch index.ts",
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "@types/koa": "^2.15.0",
+    "@types/koa-router": "^7.4.8",
+    "@types/ws": "^8.18.1",
+    "koa": "^3.0.0",
+    "koa-router": "^13.0.1",
+    "koa-websocket": "^7.0.0",
+    "ws": "^8.18.2"
+  }
 }
