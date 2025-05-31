@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 // eslint-disable-next-line no-unused-vars
 declare const PKG_VERSION: string;
 
@@ -7,3 +9,6 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any> & Plugin;
   export default component;
 }
+
+declare module '*.scss' {}
+declare module '*.css' {}

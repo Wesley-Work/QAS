@@ -18,10 +18,6 @@ export default defineConfig({
     alias: {
       '@': srcRootPath,
       '@qas/service': path.resolve(packagesRootPath, 'service'),
-      '@qas/hooks': path.resolve(packagesRootPath, 'hooks'),
-      '@qas/utils': path.resolve(packagesRootPath, 'utils'),
-      '@qas/config': path.resolve(packagesRootPath, 'config'),
-      '@qas/type': path.resolve(packagesRootPath, 'types'),
     },
   },
   plugins: [vue(), vueJsx()],

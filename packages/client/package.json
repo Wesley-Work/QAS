@@ -9,13 +9,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.13"
+    "@vue/runtime-dom": "^3.5.13",
+    "@vueuse/core": "^10.2.1",
+    "pixi.js": "^8.9.2",
+    "tdesign-icons-vue-next": "^0.3.6",
+    "tdesign-vue-next": "^1.13.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@types/nprogress": "^0.2.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "@vue/compiler-sfc": "^3.5.13",
+    "@vue/runtime-core": "^3.5.13",
     "@vue/tsconfig": "^0.7.0",
+    "sass-embedded": "^1.89.1",
     "typescript": "~5.8.3",
-    "vite": "^6.3.5",
-    "vue-tsc": "^2.2.8"
+    "vite": "^6.2.0",
+    "vite-plugin-pwa": "^0.21.2",
+    "vite-plugin-tdoc": "^2.0.4",
+    "vue-tsc": "^2.2.4"
   }
 }

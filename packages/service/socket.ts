@@ -15,7 +15,7 @@ export function broadcast(wss: Server, message: unknown): void {
 // 设置WebSocket路由和处理程序
 export function setupWebSocketRoutes(app: ReturnType<typeof websocket> & { server?: any }): void {
   // WebSocket错误处理中间件
-  app.ws.use(async (ctx: MiddlewareContext, next) => {
+  app.ws.use(async (ctx: MiddlewareContext<DefaultState>, next) => {
     try {
       await next();
     } catch (err) {
@@ -30,7 +30,7 @@ export function setupWebSocketRoutes(app: ReturnType<typeof websocket> & { serve
   });
 
   // 通用WebSocket处理中间件
-  const wsHandler: Middleware = async (ctx: MiddlewareContext) => {
+  const wsHandler: Middleware = async (ctx: MiddlewareContext<DefaultContext>) => {
     const clientId = Math.random().toString(36).substring(7);
     console.log(`Client connected (ID: ${clientId})`);
 

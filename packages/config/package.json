@@ -1,5 +1,5 @@
 {
-  "name": "@qas/utils",
+  "name": "@qas/config",
   "private": true,
   "main": "index.ts"
 }
