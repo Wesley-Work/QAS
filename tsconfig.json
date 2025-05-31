@@ -38,6 +38,7 @@
     "paths": {
       "@qas/service/*": [ "packages/service/*" ],
       "@qas/hooks/*": [ "packages/hooks/*" ],
+      "@qas/config/*": [ "packages/config/*" ],
       "@qas/type/*": [ "packages/types/*" ],
     }
   },

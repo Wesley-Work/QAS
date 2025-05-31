@@ -210,9 +210,15 @@ importers:
       '@types/koa-router':
         specifier: ^7.4.8
         version: 7.4.8
+      '@types/koa-websocket':
+        specifier: ^5.0.10
+        version: 5.0.10
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       koa:
         specifier: ^3.0.0
         version: 3.0.0
@@ -1425,6 +1431,9 @@ packages:
 
   '@types/koa-router@7.4.8':
     resolution: {integrity: sha512-SkWlv4F9f+l3WqYNQHnWjYnyTxYthqt8W9az2RTdQW7Ay8bc00iRZcrb8MC75iEfPqnGcg2csEl8tTG1NQPD4A==}
+
+  '@types/koa-websocket@5.0.10':
+    resolution: {integrity: sha512-yaqbFuyrw4eFchCHdOiyF1uhSe0nRv6xFAvVlxoG8Fq2/h+0IDjka3DyN2hJt29m6jr3+nlgsPTGh/Hd/tZmIg==}
 
   '@types/koa@2.15.0':
     resolution: {integrity: sha512-7QFsywoE5URbuVnG3loe03QXuGajrnotr3gQkXcEBShORai23MePfFYdhz90FEtBBpkyIYQbVD+evKtloCgX3g==}
@@ -6823,6 +6832,12 @@ snapshots:
   '@types/koa-router@7.4.8':
     dependencies:
       '@types/koa': 2.15.0
+
+  '@types/koa-websocket@5.0.10':
+    dependencies:
+      '@types/koa': 2.15.0
+      '@types/koa-compose': 3.2.8
+      '@types/ws': 8.18.1
 
   '@types/koa@2.15.0':
     dependencies:

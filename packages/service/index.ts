@@ -1,9 +1,13 @@
 import Koa from 'koa';
-import { attachWebSocketServer } from './socket';
+import websocket from 'koa-websocket';
 import router from './route';
+import { setupWebSocketRoutes } from './socket';
 
 // 创建Koa应用实例
 const app = new Koa();
+
+// 添加WebSocket支持
+const wsApp = websocket(app);
 
 // 全局错误处理
 app.use(async (ctx, next) => {
@@ -18,11 +22,12 @@ app.use(async (ctx, next) => {
   }
 });
 
+// 错误事件监听
 app.on('error', (err, ctx) => {
   console.error('Server Error:', err);
 });
 
-// 注册路由中间件
+// 配置HTTP路由
 app.use(router.routes());
 app.use(router.allowedMethods());
 
@@ -37,21 +42,22 @@ const server = app.listen(PORT, () => {
   console.log(`- WebSocket server: ws://localhost:${PORT}`);
 });
 
-// 附加WebSocket服务器到Koa服务器
-const wss = attachWebSocketServer(server);
+// 将server实例添加到wsApp
+wsApp.server = server;
+
+// 配置WebSocket路由
+setupWebSocketRoutes(wsApp);
 
 // 处理进程退出
 process.on('SIGINT', () => {
   console.log('\nGracefully shutting down...');
 
-  // 关闭WebSocket服务器
-  wss.close(() => {
-    console.log('WebSocket server closed');
-
-    // 关闭Koa服务器
-    server.close(() => {
-      console.log('HTTP server closed');
-      process.exit(0);
-    });
+  // 关闭服务器
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
   });
 });
+
+// 导出app实例（方便测试）
+export default app;

@@ -13,10 +13,8 @@
     "build:client": "pnpm -C packages/client build",
     "dev:service": "pnpm -C packages/service dev",
     "start:service": "pnpm -C packages/service start",
-    "dev": "run-p dev:client dev:service",
-    "start": "run-p build:client start:service"
+    "dev": "run-p dev:client dev:service"
   },
-  "author": "tdesign",
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.22.6",
