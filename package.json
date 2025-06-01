@@ -62,7 +62,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^8.7.1",
     "gray-matter": "^4.0.3",
-    "husky": "^7.0.4",
+    "husky": "^9.1.7",
     "ignore": "^5.2.4",
     "jsdom": "^19.0.0",
     "lint-staged": "^13.2.3",
