@@ -15,7 +15,7 @@
   "author": "tdesign",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.22.6",
+    "@babel/runtime": "^7.27.4",
     "dayjs": "1.11.10",
     "lodash-es": "^4.17.21",
     "tdesign-icons-vue-next": "^0.3.6",
