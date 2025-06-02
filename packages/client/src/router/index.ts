@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw, RouterOptions } from 'vue-router';
 import RenderComponents from './renderComponent';
-import { routerMaps } from '@qas/config';
+import { routerMaps } from '@we-socket/config';
 
 const routes: RouteRecordRaw[] = [
   {

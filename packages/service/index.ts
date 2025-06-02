@@ -23,7 +23,7 @@ app.use(async (ctx, next) => {
 });
 
 // 错误事件监听
-app.on('error', (err, ctx) => {
+app.on('error', (err) => {
   console.error('Server Error:', err);
 });
 
@@ -36,25 +36,25 @@ const PORT = process.env.PORT ?? 3000;
 const NODE_ENV = process.env.NODE_ENV ?? 'development';
 
 const server = app.listen(PORT, () => {
-  console.log(`[${NODE_ENV.toUpperCase()}] Server started with configuration:`);
-  console.log(`- Environment: ${NODE_ENV}`);
-  console.log(`- HTTP server: http://localhost:${PORT}`);
-  console.log(`- WebSocket server: ws://localhost:${PORT}`);
+  console.info(`[${NODE_ENV.toUpperCase()}] Server started with configuration:`);
+  console.info(`- Environment: ${NODE_ENV}`);
+  console.info(`- HTTP server: http://localhost:${PORT}`);
+  console.info(`- WebSocket server: ws://localhost:${PORT}`);
 });
 
 // 将server实例添加到wsApp
-wsApp.server = server;
+// wsApp.server = server;
 
 // 配置WebSocket路由
 setupWebSocketRoutes(wsApp);
 
 // 处理进程退出
 process.on('SIGINT', () => {
-  console.log('\nGracefully shutting down...');
+  console.info('\nGracefully shutting down...');
 
   // 关闭服务器
   server.close(() => {
-    console.log('Server closed');
+    console.info('Server closed');
     process.exit(0);
   });
 });

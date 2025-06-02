@@ -1,5 +1,5 @@
 {
-  "name": "@qas/types",
+  "name": "@we-socket/types",
   "private": true,
   "main": "index.ts"
 }

@@ -1,6 +1,6 @@
 // useWebSocket.ts
 import { ref, onUnmounted, watch } from 'vue';
-import { socketHeartbeatInterval, socketReConnectInterval, socketReConnectLimit, socketUrl } from '@qas/config';
+import { socketHeartbeatInterval, socketReConnectInterval, socketReConnectLimit, socketUrl } from '@we-socket/config';
 
 type ErrorCallback = (msg: string, { e }?: { e: Event }) => void;
 type MessageCallback = ({ e }?: { e: MessageEvent }) => void;
@@ -104,7 +104,6 @@ export function useWebSocket(url: string = socketUrl, options: WebSocketOptions 
   };
 
   const send = (data: string | ArrayBuffer | Blob | ArrayBufferView) => {
-    console.log(wsRef.value, status.value);
     if (wsRef.value && status.value === 'open') {
       wsRef.value.send(data);
     } else {

@@ -17,8 +17,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': srcRootPath,
-      '@qas/service': path.resolve(packagesRootPath, 'service'),
-      '@qas/client': path.resolve(packagesRootPath, 'client'),
+      '@we-socket/service': path.resolve(packagesRootPath, 'service'),
+      '@we-socket/client': path.resolve(packagesRootPath, 'client'),
     },
   },
   plugins: [vue(), vueJsx()],

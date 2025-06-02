@@ -43,8 +43,8 @@
     "skipLibCheck": true,
 
     "paths": {
-      "@qas/service/*": [ "packages/service/*" ],
-      "@qas/client/*": [ "packages/client/*" ],
+      "@we-socket/service/*": [ "packages/service/*" ],
+      "@we-socket/client/*": [ "packages/client/*" ],
     }
   },
   "include": [

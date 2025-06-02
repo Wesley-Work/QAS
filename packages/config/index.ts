@@ -1,4 +1,4 @@
-export * from '@qas/client/src/router/routerMaps';
+export * from '@we-socket/client/src/router/routerMaps';
 
 export const config = {
   socket: {

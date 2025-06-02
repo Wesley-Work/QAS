@@ -1,5 +1,5 @@
 {
-  "name": "@qas/utils",
+  "name": "@we-socket/utils",
   "private": true,
   "main": "index.ts"
 }

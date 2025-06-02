@@ -1,7 +1,7 @@
 import type { Server } from 'ws';
 import websocket from 'koa-websocket';
-import type { Middleware, MiddlewareContext } from 'koa-websocket';
-import type { DefaultState, DefaultContext } from 'koa';
+import type { MiddlewareContext } from 'koa-websocket';
+import type { DefaultState } from 'koa';
 
 // 广播消息给所有连接的客户端
 export function broadcast(wss: Server, message: unknown): void {
@@ -34,7 +34,7 @@ const handleError = (ctx: MiddlewareContext<DefaultState>, error: any, clientId:
         errcode: 'Internal WebSocket error',
         errmsg: error,
       },
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().getTime(),
     }),
   );
 };
@@ -48,7 +48,7 @@ const handleWarning = (msg: any, data: any, clientId: string = null) => {
       msg: msg,
       receiveData: data,
     },
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().getTime(),
   });
 };
 
@@ -84,7 +84,7 @@ export function setupWebSocketRoutes(app: ReturnType<typeof websocket> & { serve
           receiveData: data,
           msg: "I'm alive!",
         },
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().getTime(),
       });
     }
 
@@ -104,7 +104,7 @@ export function setupWebSocketRoutes(app: ReturnType<typeof websocket> & { serve
           receiveData: data,
           clientType: type,
         },
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().getTime(),
       });
     }
 

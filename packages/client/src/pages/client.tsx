@@ -1,35 +1,32 @@
-import { defineComponent, onMounted } from 'vue';
-import { useWebSocket } from '@qas/hooks';
-import { socketUrl } from '@qas/config';
+import { defineComponent } from 'vue';
+import { useWebSocket } from '@we-socket/hooks';
+import { socketUrl } from '@we-socket/config';
 
 export default defineComponent({
-  name: 'QASClient',
+  name: 'Client',
   setup() {
     const { status, messageHistory, send } = useWebSocket(socketUrl, {
       type: 'client',
       onMessage: ({ e }) => {
-        console.log('Received:', e.data);
+        console.info('Received:', e.data);
+        console.info('MessageHistory:', messageHistory);
       },
       onError: (error) => {
         console.error('WebSocket error:', error);
       },
       onOpen: () => {
-        console.log('WebSocket connection established');
+        console.info('WebSocket connection established', status);
         send(JSON.stringify({ a: 'Hello!' }));
       },
       onClose: () => {
-        console.log('WebSocket connection closed');
+        console.info('WebSocket connection closed');
       },
     });
-
-    // onMounted(() => {
-    //   send('Hello!');
-    // });
 
     return () => {
       return (
         <div>
-          <div>123</div>
+          <div>This is Client Page</div>
         </div>
       );
     };

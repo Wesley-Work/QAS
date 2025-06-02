@@ -1,5 +1,5 @@
 {
-  "name": "qas",
+  "name": "we-socket",
   "private": true,
   "packageManager": "pnpm@9.15.9",
   "engines": {
@@ -13,14 +13,15 @@
     "build:client": "pnpm -C packages/client build",
     "dev:service": "pnpm -C packages/service dev",
     "start:service": "pnpm -C packages/service start",
-    "dev": "run-p dev:client dev:service"
+    "dev": "run-p dev:client dev:service",
+    "build": "pnpm run build:client"
   },
   "license": "MIT",
   "dependencies": {
-    "@qas/config": "workspace:^",
-    "@qas/hooks": "workspace:^",
-    "@qas/utils": "workspace:^",
-    "@qas/types": "workspace:^",
+    "@we-socket/config": "workspace:^",
+    "@we-socket/hooks": "workspace:^",
+    "@we-socket/utils": "workspace:^",
+    "@we-socket/types": "workspace:^",
     "@babel/runtime": "^7.22.6",
     "dayjs": "1.11.10",
     "lodash-es": "^4.17.21"

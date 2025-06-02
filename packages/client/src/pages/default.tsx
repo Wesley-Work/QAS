@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'QASDefault',
+  name: 'Default',
   setup() {
     const router = useRouter();
     return () => {

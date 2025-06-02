@@ -1,5 +1,5 @@
 {
-  "name": "@qas/service",
+  "name": "@we-socket/service",
   "private": true,
   "main": "index.ts",
   "license": "MIT",
