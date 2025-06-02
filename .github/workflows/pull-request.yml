@@ -101,7 +101,7 @@ jobs:
         run: pnpm run build
 
       - run: |
-          zip -r preview.zip /packages/client/dist
+          zip -r preview.zip ./packages/client/dist
 
       # 上传站点文件作为构建产物
       - name: upload preview site artifact
