@@ -1,5 +1,5 @@
 {
-  "name": "qas",
+  "name": "we-socket",
   "private": true,
   "packageManager": "pnpm@9.15.9",
   "engines": {
@@ -10,16 +10,21 @@
     "lint": "pnpm lint:tsc && eslint --ext .vue,.js,.ts,.tsx ./packages --max-warnings 0 --cache",
     "lint:fix": "eslint --ext .vue,.js,.ts,.tsx ./packages --max-warnings 0 --fix --cache",
     "dev:client": "pnpm -C packages/client dev",
-    "build:client": "pnpm -C packages/client build"
+    "build:client": "pnpm -C packages/client build",
+    "dev:service": "pnpm -C packages/service dev",
+    "start:service": "pnpm -C packages/service start",
+    "dev": "run-p dev:client dev:service",
+    "build": "pnpm run build:client"
   },
-  "author": "tdesign",
   "license": "MIT",
   "dependencies": {
+    "@we-socket/config": "workspace:^",
+    "@we-socket/hooks": "workspace:^",
+    "@we-socket/utils": "workspace:^",
+    "@we-socket/types": "workspace:^",
     "@babel/runtime": "^7.22.6",
     "dayjs": "1.11.10",
-    "lodash-es": "^4.17.21",
-    "tdesign-icons-vue-next": "^0.3.6",
-    "tdesign-vue-next": "^1.13.1"
+    "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
     "vue": ">=3.1.0"
@@ -43,8 +48,6 @@
     "@typescript-eslint/parser": "^4.33.0",
     "@vitejs/plugin-vue": "^2.3.4",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
-    "@vitest/coverage-v8": "^2.1.8",
-    "@vitest/ui": "^2.1.8",
     "@vue/babel-plugin-jsx": "1.2.2",
     "@vue/eslint-config-typescript": "^10.0.0",
     "@vue/test-utils": "^2.4.1",

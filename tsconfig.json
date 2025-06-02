@@ -4,6 +4,10 @@
     "target": "esnext",
     "lib": [ "esnext", "dom", "dom.iterable", "scripthost"],
     "jsx": "preserve",
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsxFactory": "h",
 
     /* Modules */
     "module": "esnext",
@@ -26,24 +30,27 @@
     "esModuleInterop": true,
 
     /* Type Checking */
-    // TODO: 待开启
-    // "strict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": false,
+    "strict": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
 
     /* Completeness */
     "skipLibCheck": true,
 
     "paths": {
-      "@qas/service/*": [ "packages/service/*" ],
-      "@qas/hooks/*": [ "packages/hooks/*" ],
+      "@we-socket/service/*": [ "packages/service/*" ],
+      "@we-socket/client/*": [ "packages/client/*" ],
     }
   },
   "include": [
     "./**/*.ts",
     "./**/*.tsx",
-    "packages/components/**/*.vue",
+    "packages/**/*.vue",
   ],
   "exclude": [
     "node_modules",

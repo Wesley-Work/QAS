@@ -1,5 +1,5 @@
 {
-  "name": "@qas/hooks",
+  "name": "@we-socket/hooks",
   "private": true,
   "main": "index.ts",
   "license": "MIT"
