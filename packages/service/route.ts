@@ -1,5 +1,4 @@
 import Router from 'koa-router';
-import { Context } from 'koa';
 
 // 创建路由实例
 const router = new Router();
