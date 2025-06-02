@@ -44,6 +44,7 @@
 
     "paths": {
       "@qas/service/*": [ "packages/service/*" ],
+      "@qas/client/*": [ "packages/client/*" ],
     }
   },
   "include": [

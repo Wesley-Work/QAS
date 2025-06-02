@@ -12,137 +12,167 @@ export function broadcast(wss: Server, message: unknown): void {
   });
 }
 
+interface WebsocketClientList {
+  [clientId: string]: {
+    type: 'client' | 'manage' | null;
+    connectTimestamp: number;
+  };
+}
+
+interface WebsocketReceivedMessage {
+  type: string;
+  [k: string]: any;
+}
+
+// 统一的错误处理
+const handleError = (ctx: MiddlewareContext<DefaultState>, error: any, clientId: string = null) => {
+  ctx.websocket.send(
+    JSON.stringify({
+      type: 'error',
+      data: {
+        clientId: clientId,
+        errcode: 'Internal WebSocket error',
+        errmsg: error,
+      },
+      timestamp: new Date().toISOString(),
+    }),
+  );
+};
+
+// 统一处理告警消息
+const handleWarning = (msg: any, data: any, clientId: string = null) => {
+  return JSON.stringify({
+    type: 'warning',
+    data: {
+      clientId: clientId,
+      msg: msg,
+      receiveData: data,
+    },
+    timestamp: new Date().toISOString(),
+  });
+};
+
 // 设置WebSocket路由和处理程序
 export function setupWebSocketRoutes(app: ReturnType<typeof websocket> & { server?: any }): void {
+  // 连接列表
+  let clientsList: WebsocketClientList = {};
+
   // WebSocket错误处理中间件
   app.ws.use(async (ctx: MiddlewareContext<DefaultState>, next) => {
     try {
       await next();
     } catch (err) {
       console.error('WebSocket Error:', err);
-      ctx.websocket.send(
-        JSON.stringify({
-          type: 'error',
-          message: 'Internal WebSocket Error',
-        }),
-      );
+      handleError(ctx, err);
     }
   });
 
-  // 通用WebSocket处理中间件
-  const wsHandler: Middleware = async (ctx: MiddlewareContext<DefaultContext>) => {
-    const clientId = Math.random().toString(36).substring(7);
-    console.log(`Client connected (ID: ${clientId})`);
+  const handleReceived = (data: WebsocketReceivedMessage, clientId: string) => {
+    const clientData = clientsList[clientId];
 
-    // 获取服务器端口
-    const serverPort = app.server && app.server.address() ? (app.server.address() as { port: number }).port : 3000;
+    // 判断消息类型
+    if (!data?.type) {
+      return handleWarning('消息类型不正确！', data, clientId);
+    }
 
-    // 发送欢迎消息
-    ctx.websocket.send(
-      JSON.stringify({
-        type: 'system',
-        data: `Connected successfully. Your client ID: ${clientId}`,
-        timestamp: new Date().toISOString(),
-        serverInfo: {
-          port: serverPort,
-          path: ctx.path,
-          protocol: 'ws',
+    // 处理心跳
+    if (data.type === 'heartbeat') {
+      return JSON.stringify({
+        type: 'heartbeat',
+        data: {
+          clientId: clientId,
+          receiveData: data,
+          msg: "I'm alive!",
         },
-      }),
-    );
+        timestamp: new Date().toISOString(),
+      });
+    }
 
-    // 处理消息接收
-    ctx.websocket.on('message', (message: Buffer) => {
-      try {
-        const data = JSON.parse(message.toString());
-        console.log(`Received message from ${clientId}:`, data);
+    if (data.type === 'setClientType') {
+      const type = data.data.type;
 
-        // 发送响应
-        ctx.websocket.send(
-          JSON.stringify({
-            type: 'response',
-            clientId,
-            timestamp: new Date().toISOString(),
-            data: `Server received: ${JSON.stringify(data)}`,
-          }),
-        );
-      } catch (error) {
-        console.error(`Error processing message from ${clientId}:`, error);
-        ctx.websocket.send(
-          JSON.stringify({
-            type: 'error',
-            clientId,
-            timestamp: new Date().toISOString(),
-            message: 'Invalid message format. Please send valid JSON.',
-          }),
-        );
+      if (!['client', 'manage'].includes(type)) {
+        return handleWarning('未知的客户端类型', data, clientId);
       }
-    });
 
-    // 处理连接关闭
-    ctx.websocket.on('close', () => {
-      console.log(`Client disconnected (ID: ${clientId})`);
-    });
+      clientsList[clientId].type = type;
 
-    // 处理错误
-    ctx.websocket.on('error', (error) => {
-      console.error(`WebSocket error for client ${clientId}:`, error);
+      return JSON.stringify({
+        type: 'setClientType',
+        data: {
+          clientId: clientId,
+          receiveData: data,
+          clientType: type,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // 判断当前客户端类型，如未设置就返回告警
+    if (!clientData?.type) {
+      return handleWarning('需要设置客户端类型！', data, clientId);
+    }
+
+    return JSON.stringify({
+      type: 'response',
+      data: {
+        clientId: clientId,
+        msg: 'DEFAULT RETURN',
+      },
+      timestamp: new Date().getTime(),
     });
   };
 
-  // 注册WebSocket处理
-  app.ws.use(async (ctx, next) => {
-    // 根据路径处理不同的WebSocket逻辑
-    if (ctx.path === '/echo') {
-      // Echo服务
-      const echoClientId = Math.random().toString(36).substring(7);
-      const serverPort = app.server && app.server.address() ? (app.server.address() as { port: number }).port : 3000;
+  // WebSocket处理
+  app.ws.use(async (ctx) => {
+    const clientId = Math.random().toString(36).substring(3);
+    console.info(`Client connected (ID: ${clientId})`);
 
-      console.log(`Echo client connected (ID: ${echoClientId})`);
+    // 发送ServerHello消息
+    ctx.websocket.send(
+      JSON.stringify({
+        type: 'connected',
+        data: {
+          clientId: clientId,
+        },
+        timestamp: new Date().getTime(),
+      }),
+    );
 
-      // 发送欢迎消息
-      ctx.websocket.send(
-        JSON.stringify({
-          type: 'system',
-          service: 'echo',
-          clientId: echoClientId,
-          timestamp: new Date().toISOString(),
-          serverInfo: {
-            port: serverPort,
-            path: ctx.path,
-            protocol: 'ws',
-          },
-        }),
-      );
+    // 记录客户端连接
+    clientsList[clientId] = { type: null, connectTimestamp: new Date().getTime() };
 
-      ctx.websocket.on('message', (message) => {
-        try {
-          // 尝试解析JSON，如果成功则保持JSON格式返回
-          const jsonMessage = JSON.parse(message.toString());
-          ctx.websocket.send(
-            JSON.stringify({
-              type: 'echo',
-              clientId: echoClientId,
-              timestamp: new Date().toISOString(),
-              data: jsonMessage,
-            }),
-          );
-        } catch {
-          // 如果不是JSON，则直接回显原始消息
-          ctx.websocket.send(message.toString());
-        }
-      });
+    // 消息接收
+    ctx.websocket.on('message', (message: Buffer) => {
+      try {
+        const data: WebsocketReceivedMessage = JSON.parse(message.toString());
+        console.info(`Received message from ${clientId}:`, data);
 
-      ctx.websocket.on('close', () => {
-        console.log(`Echo client disconnected (ID: ${echoClientId})`);
-      });
+        // 返回响应
+        ctx.websocket.send(handleReceived(data, clientId));
+      } catch (error) {
+        console.error(`Error processing message from ${clientId}:`, error);
+        handleError(ctx, 'Invalid message format. Please send valid JSON.', clientId);
+      }
+    });
 
-      ctx.websocket.on('error', (error) => {
-        console.error(`Echo WebSocket error for client ${echoClientId}:`, error);
-      });
-    } else {
-      // 默认处理
-      await wsHandler(ctx, next);
-    }
+    // 连接关闭
+    ctx.websocket.on('close', () => {
+      console.info(`Client disconnected (ID: ${clientId})`);
+      // 删除记录
+      clientsList = Object.keys(clientsList)
+        .filter((key) => key !== clientId)
+        .reduce((obj: any, key: string) => {
+          obj[key] = clientsList[key];
+          return obj;
+        }, {});
+    });
+
+    // 连接错误
+    ctx.websocket.on('error', (error: any) => {
+      console.error(`WebSocket error for client ${clientId}:`, error);
+      // 返回错误
+      handleError(ctx, error, clientId);
+    });
   });
 }

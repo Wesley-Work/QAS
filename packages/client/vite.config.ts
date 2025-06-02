@@ -18,6 +18,7 @@ export default defineConfig({
     alias: {
       '@': srcRootPath,
       '@qas/service': path.resolve(packagesRootPath, 'service'),
+      '@qas/client': path.resolve(packagesRootPath, 'client'),
     },
   },
   plugins: [vue(), vueJsx()],
