@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vue/runtime-dom": "^3.5.13",
+    "@vue/runtime-dom": "^3.5.22",
     "@vueuse/core": "^10.2.1",
     "pixi.js": "^8.9.2",
     "tdesign-icons-vue-next": "^0.3.6",
